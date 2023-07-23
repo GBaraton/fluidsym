@@ -1,0 +1,73 @@
+Pour chaque point de notre cadriage:
+
+#variables globales
+mu : viscosité
+# obligatoire, imcompressible
+# initialisé en limite:
+vitesse_x = 25 # en réalité à determiner
+vitesse_y = 1
+pression  = qq_ch
+
+# initialisée à chaque point
+vitesse_x = 1
+vitesse_y = 0
+pression  = cst
+
+Elles sont initialisées à chaque point.
+Puis à chaque instant t réactualisées de proche en proche.
+
+A chaque instant t, on regarde un point et on calcule sa valeur au pas de
+temps suivant. Cette valeur est déterminée par les valeurs des points proches.
+
+Des gradients qui se discrétisent en moyennes des points autour.
+ex : point de droite - gauche / dt
+
+# Point important qu'il faudra considérer
+CFL nous indique à quelle case il faut chercher.
+(v * dt) / dx
+
+Celui ci dépend de la vitesse actuelle et du schéma numérique.
+En pratique Il faut calculer le CFL à chaque point.
+S'il est > 1, nous changeons le pas de temps pour diminuer le CFL.
+
+Calculer le CFL partout. Pour être sur. Sinon big big trouble.
+
+# Nous aurons 3 equations
+1. une de continuité
+2. deux de quantitée de mouvement
+
+3 eq 3 variables; -> cool
+
+A chaque instant t nous résolvons ces trois équations pour solver les points.
+
+# 2 types de simulation : 
+1. steady state : on attends que ce soit stationnaire
+
+2. Instationnaire : Type alée de VonKarman
+-> Force en y est une sinusoide dans la
+survace supérieure de la paroie au milieu.
+
+# Jalons Iniciaux
+1.simulation simple 2D une entrée et une sortie.
+2.tube rectangulaire, maillage régulier
+3.backwards step, maillage régulier
+4.alée de von karman, régulier non stationaire
+
+Navier-Stokes is much-bettah
+
+# Long terme
+## Côté Méca Flu : 
+* Passer au 3D
+* Passer en compréssible
+* Faire des maillages inégaux, non carthésiens
+* Faire des équations RANS (turbulence)
+* Avec RANS on peut essayer de compler Neural Networks
+
+## Côté Numérique :
+* Raylib pour afficher les gradients de vitesse
+* GMSH pour créer les maillages
+* MultiCoeur
+* SIMD
+* GPU
+
+
