@@ -2,4 +2,6 @@
 
 This is a project of fluidsymulation in C.
 
-newline
+## Compile and Run : 
+
+```make fsym && ./fsym```
