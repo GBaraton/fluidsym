@@ -7,8 +7,8 @@ DEBUG_CFLAGS = -Wall -Wextra -g
 
 REQ = main.c fsym.c
 
-# fsym_deb: $(REQ) 
-# 	$(CC) $(DEBUG_CFLAGS) -o $@ $^ $(LIBS)
+# fsym_release: $(REQ) 
+# 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 fsym: $(REQ)
 	$(CC) $(DEBUG_CLFAGS) $(CFLAGS) -o $@ $^ $(LIBS)
@@ -16,3 +16,4 @@ fsym: $(REQ)
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./fsym
 
+.PHONY: fsym

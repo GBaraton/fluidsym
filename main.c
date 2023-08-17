@@ -4,11 +4,9 @@
 #include <stdlib.h>
 #include "fsym.h"
 
-
-
-
 int main() {
-    mesh *m = mesh_malloc(4, 8);
+    mesh* m = mesh_malloc();
+
     mesh_initialize(m);
     mesh_print(m);
     mesh_free(m);
