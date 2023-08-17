@@ -5,7 +5,7 @@ CFLAGS =  -O3
 DEBUG_CFLAGS = -Wall -Wextra -g 
 # OPTI_FLAGS = -march=native -mavx2 -mfpmath=sse -msse4 -fopt-info-vec-all=gcc.optrpt
 
-REQ = main.c fsym.c
+REQ = ./src/main.c ./src/fsym.c
 
 # fsym_release: $(REQ) 
 # 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
