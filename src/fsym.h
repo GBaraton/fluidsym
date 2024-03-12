@@ -9,6 +9,11 @@
 #define Nx 256 // cols
 #define MATRIX_SIZE Ny * Nx
 
+#define MATRIX_COUNT 30 
+#define MATRIXES_MEMORY_NEEDED MATRIX_COUNT * MATRIX_SIZE * sizeof(float)
+
+#define NB_DIRECTIONS 9
+
 // fix_base_pt should be declared in main during runtime
 #define f_0(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  0]
 #define f_1(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  1]
@@ -46,8 +51,21 @@
 #define  uy(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 28]
 #define rho(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 29]
 
-#define MATRIX_COUNT 30 
-#define MATRIXES_MEMORY_NEEDED MATRIX_COUNT * MATRIX_SIZE * sizeof(float)
 
+typedef struct {
+    const float tau;
+    const float d_tau;
+    const float c_s;
+    const float d_cs2;
+    const float d_cs4;
+    const float w_a[9];
+} constants;
+
+// Helpers 
+#define p2(val) pow(val, 2)
+
+// Function definitions
+
+constants setup_constants(void);
 
 #endif
