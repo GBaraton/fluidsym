@@ -3,54 +3,27 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
+
+// So files that include this header file know that these exist
+extern float *f_0, *f_1, *f_2, *f_3, *f_4, *f_5, *f_6, *f_7, *f_8;
+extern float *f_next_0, *f_next_1, *f_next_2, *f_next_3, *f_next_4, *f_next_5, *f_next_6, *f_next_7, *f_next_8;
+extern float *f_eq_0, *f_eq_1, *f_eq_2, *f_eq_3, *f_eq_4, *f_eq_5, *f_eq_6, *f_eq_7, *f_eq_8;
+extern float *ux, *uy, *rho;
+
 
 // these should be a multiple of 16 for future SIMD maths
-#define Ny 128 // rows
-#define Nx 256 // cols
+// #define Ny 128 // rows
+// #define Nx 256 // cols
+
+#define Ny 4 // rows
+#define Nx 12 // cols
+
 #define MATRIX_SIZE Ny * Nx
-
-#define MATRIX_COUNT 30 
-#define MATRIXES_MEMORY_NEEDED MATRIX_COUNT * MATRIX_SIZE * sizeof(float)
-
 #define NB_DIRECTIONS 9
 
-// fix_base_pt should be declared in main during runtime
-#define f_0(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  0]
-#define f_1(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  1]
-#define f_2(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  2]
-#define f_3(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  3]
-#define f_4(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  4]
-#define f_5(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  5]
-#define f_6(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  6]
-#define f_7(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  7]
-#define f_8(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  8]
-
-#define f_next_0(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE *  9]
-#define f_next_1(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 10]
-#define f_next_2(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 11]
-#define f_next_3(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 12]
-#define f_next_4(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 13]
-#define f_next_5(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 14]
-#define f_next_6(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 15]
-#define f_next_7(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 16]
-#define f_next_8(y, x)  fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 17]
-
-#define f_eq(d, y, x)   fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 18]
-
-#define f_eq_0(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 18]
-#define f_eq_1(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 19]
-#define f_eq_2(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 20]
-#define f_eq_3(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 21]
-#define f_eq_4(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 22]
-#define f_eq_5(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 23]
-#define f_eq_6(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 24]
-#define f_eq_7(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 25]
-#define f_eq_8(y, x)    fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 26]
-
-#define  ux(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 27]
-#define  uy(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 28]
-#define rho(y, x)       fixed_base_pt[(y) * Nx + (x) + MATRIX_SIZE * 29]
-
+#define MATRIX_COUNT 30 
+#define TOTAL_NMEMB MATRIX_COUNT * MATRIX_SIZE
 
 typedef struct {
     const float tau;
@@ -58,14 +31,14 @@ typedef struct {
     const float c_s;
     const float d_cs2;
     const float d_cs4;
-    const float w_a[9];
-} constants;
+    const float w_a[NB_DIRECTIONS];
+} constants_t;
 
 // Helpers 
 #define p2(val) pow(val, 2)
 
 // Function definitions
-
-constants setup_constants(void);
+constants_t setup_constants(void);
+void init(float* fixed_base_pt, constants_t* config);
 
 #endif

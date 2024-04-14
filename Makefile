@@ -1,9 +1,9 @@
 LIBS    = -lm
 CC		= gcc
-CFLAGS	=  -O3
 
-DEBUG_CFLAGS	= -Wall -Wextra -g 
-OPTI_FLAGS		= -march=native -mavx2 -mfpmath=sse -msse4 -fopt-info-vec-all=gcc.optrpt - 03
+CFLAGS			= 
+DEBUG_CFLAGS	= -Wall -Wextra -g -DDEBUG
+OPTI_FLAGS		= -march=native -mavx2 -mfpmath=sse -msse4 -fopt-info-vec-all=gcc.optrpt -O3
 
 SRC		= src
 SRCS	= $(wildcard $(SRC)/*.c)
@@ -13,14 +13,18 @@ TEST		= tests
 TESTS		= $(wildcard $(TEST)/*.c)
 TESTBINS	= $(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TESTS))
 
+EXEFILE     = fsym
 
 # fsym_release: $(SRCS) 
 # 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-all: fsym test
+all: fsym
 
 fsym: $(SRCS)
-	$(CC) $(DEBUG_CLFAGS) $(CFLAGS) -o $@ $^ $(LIBS)
+	$(CC) $(DEBUG_CFLAGS) $(CFLAGS) -o $(EXEFILE) $^ $(LIBS)
+
+release: $(SRCS)
+	$(CC) $(OPTI_FLAGS) $(CFLAGS) -o $(EXEFILE) $^ $(LIBS)
 
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./fsym
@@ -30,7 +34,7 @@ $(TEST)/bin/%: $(TEST)/%.c
 	$(CC) $(DEBUG_CFLAGS) $< $(SRCS_MINUS_MAIN) -o $@ -lcriterion  $(LIBS)
 
 # Runs tests, 
-test: clean $(TESTBINS)
+test: clean_tests $(TESTBINS)
 	for test in $(TESTBINS) ; do ./$$test ; done
 
 clean_tests: 
@@ -39,4 +43,4 @@ clean_tests:
 clean: clean_tests
 	rm -f fsym 
 
-.PHONY: fsym clean test $(TEST)/bin/%
+.PHONY: fsym release clean test $(TEST)/bin/%
