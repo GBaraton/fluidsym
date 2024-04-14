@@ -58,12 +58,12 @@ void init(float* fixed_base_pt, constants_t* config) {
 
   for (int y = 0; y < Ny; y++) {
     for (int x = 0; x < Nx; x++) {
-      M(f_eq_0, y, x) = w_a[0] * R(rho, y, x) * (1                                                                           - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
+      M(f_eq_0, y, x) = w_a[0] * R(rho, y, x) * (1                                                                                        - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
 
-      M(f_eq_1, y, x) = w_a[1] * R(rho, y, x) * (1 + d_cs2 * R(ux, y, x)               + .5 * d_cs4 * (p2( R(ux, y, x)           )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
-      M(f_eq_2, y, x) = w_a[2] * R(rho, y, x) * (1 + d_cs2 * R(ux, y, x)               + .5 * d_cs4 * (p2( R(ux, y, x)           )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
-      M(f_eq_3, y, x) = w_a[3] * R(rho, y, x) * (1 - d_cs2 * R(ux, y, x)               + .5 * d_cs4 * (p2( R(ux, y, x)           )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
-      M(f_eq_4, y, x) = w_a[4] * R(rho, y, x) * (1 - d_cs2 * R(ux, y, x)               + .5 * d_cs4 * (p2( R(ux, y, x)           )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
+      M(f_eq_1, y, x) = w_a[1] * R(rho, y, x) * (1 + d_cs2 * R(ux, y, x)                  + .5 * d_cs4 * (p2( R(ux, y, x)              )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
+      M(f_eq_2, y, x) = w_a[2] * R(rho, y, x) * (1 + d_cs2 * R(ux, y, x)                  + .5 * d_cs4 * (p2( R(ux, y, x)              )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
+      M(f_eq_3, y, x) = w_a[3] * R(rho, y, x) * (1 - d_cs2 * R(ux, y, x)                  + .5 * d_cs4 * (p2( R(ux, y, x)              )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
+      M(f_eq_4, y, x) = w_a[4] * R(rho, y, x) * (1 - d_cs2 * R(ux, y, x)                  + .5 * d_cs4 * (p2( R(ux, y, x)              )) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
 
       M(f_eq_4, y, x) = w_a[5] * R(rho, y, x) * (1 + d_cs2 * ( R(ux, y, x) + R(uy, y, x)) + .5 * d_cs4 * (p2( R(ux, y, x) + R(uy, y, x))) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
       M(f_eq_5, y, x) = w_a[6] * R(rho, y, x) * (1 + d_cs2 * (-R(ux, y, x) + R(uy, y, x)) + .5 * d_cs4 * (p2(-R(ux, y, x) + R(uy, y, x))) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
@@ -71,6 +71,7 @@ void init(float* fixed_base_pt, constants_t* config) {
       M(f_eq_7, y, x) = w_a[8] * R(rho, y, x) * (1 - d_cs2 * ( R(ux, y, x) - R(uy, y, x)) + .5 * d_cs4 * (p2( R(ux, y, x) - R(uy, y, x))) - .5 * d_cs2 * (p2(R(ux, y, x)) + p2(R(uy, y, x))));
     }
   }
+  memcpy(f_0, f_eq_0, MATRIX_SIZE * NB_DIRECTIONS * sizeof(float));
 }
 
 
